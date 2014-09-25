@@ -1,10 +1,12 @@
-# shibboleth
+# Shibboleth
 
-This is a shibboleth puppet module.
+The Shibboleth Puppet module is intended as a companion module to the [PuppetLabs Apache module](https://forge.puppetlabs.com/puppetlabs/apache) that manages the Shibboleth services used by Service Providers (SP) and Identity Providers (IDp).
 
-# Licensing
+These shibboleth services are tightly bound to the installation of the Shibboleth Apache module `mod_shib` so the resources provided in this module are dependent on the use of the `apache::mod::shib` class from the PuppetLabs Apache module.
 
-Update your license details here.
+# To Do
+
+* Get rid of augeas (it's a big performance hit)
 
 # Attribution
 

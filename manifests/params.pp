@@ -14,8 +14,21 @@
 # [Remember: No empty lines between comments and class definition]
 class shibboleth::params {
 
+  $admin              = $::apache::serveradmin
+  $hostname           = $::fqdn
+  $logo_location      = '/shibboleth-sp/logo.jpg'
+  $style_sheet        = '/shibboleth-sp/main.css'
+  $conf_dir           = '/etc/shibboleth'
+  $conf_file          = 'shibboleth2.xml'
+  $sp_cert            = 'sp-cert.pem'
+  $bin_dir            = '/usr/sbin'
+  $discovery_protocol = 'SAMLDS'
+
   case $::osfamily {
     Debian:{
+      # Do nothing
+    }
+    RedHat:{
       # Do nothing
     }
     default:{
