@@ -1,0 +1,21 @@
+{
+  "name": "Aethylred-shibboleth",
+  "version": "0.0.1",
+  "author": "Aethylred",
+  "license": "Licensed under Apache 2.0",
+  "summary": "A module for installing and managing shibboleth",
+  "source": "https://github.com/Aethylred/shibboleth",
+  "project_page": "https://github.com/Aethylred/shibboleth",
+  "issues_url": "https://github.com/Aethylred/shibboleth/issues",
+  "tags": ["shibboleth"],
+  "operatingsystem_support": [
+    {
+    "operatingsystem": "Ubuntu",
+    "operatingsystemrelease": [ "12.04", "14.04" ]
+    }
+   ],
+  "dependencies": [
+    // { "name": "puppetlabs/stdlib",  "version_requirement": ">=4.2.0 <5.0.0" },
+    // { "name": "puppetlabs/apache",  "version_requirement": "1.0.1" },
+  ] 
+}
