@@ -1,8 +1,8 @@
 fixtures:
   repositories:
     apache:
-      repo: 'https://github.com/Aethylred/puppetlabs-apache.git'
-      ref:  'origin/mod_shib'
+      repo: 'https://github.com/puppetlabs/puppetlabs-apache.git'
+      ref:  'origin/master'
   forge_modules:
     stdlib:
       repo: 'puppetlabs-stdlib'
