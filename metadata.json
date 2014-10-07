@@ -1,12 +1,12 @@
 {
   "name": "Aethylred-shibboleth",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Aethylred",
   "license": "Licensed under Apache 2.0",
   "summary": "A module for installing and managing shibboleth",
   "source": "https://github.com/Aethylred/shibboleth",
-  "project_page": "https://github.com/Aethylred/shibboleth",
-  "issues_url": "https://github.com/Aethylred/shibboleth/issues",
+  "project_page": "https://github.com/Aethylred/puppet-shibboleth",
+  "issues_url": "https://github.com/Aethylred/puppet-shibboleth/issues",
   "tags": ["shibboleth"],
   "operatingsystem_support": [
     {
