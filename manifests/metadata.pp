@@ -4,9 +4,9 @@ define shibboleth::metadata(
   $provider_uri,
   $cert_uri,
   $backing_file_dir         = $::shibboleth::conf_dir,
-  $backing_file_name        = inline_template("<%= provider_uri.split('/').last  %>"),
+  $backing_file_name        = inline_template("<%= @provider_uri.split('/').last  %>"),
   $cert_dir                 = $::shibboleth::conf_dir,
-  $cert_file_name           = inline_template("<%= cert_uri.split('/').last  %>"),
+  $cert_file_name           = inline_template("<%= @cert_uri.split('/').last  %>"),
   $provider_type            = 'XML',
   $provider_reload_interval = '7200',
   $metadata_filter_max_validity_interval  = '2419200'
