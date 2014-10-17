@@ -134,9 +134,9 @@ class{'shibboleth':
 
 The `shibboleth` module provides the following classes and resource definitions:
 
-## Class: `shibbloleth`
+## Class: `shibboleth`
 
-### Parameters for `shibbloleth`
+### Parameters for `shibboleth`
 
 * `admin`      Sets the Shibboleth administrator's email address, defaults to `apache::serveradmin`
 * `hostname`   Sets the host name to be used in the Shibboleth configuration, defaults to `fqdn`
@@ -148,27 +148,27 @@ The `shibboleth` module provides the following classes and resource definitions:
 * `bin_dir`    Sets the location of the Shibboleth tools (esp. shib-keygen), defaults to  `/usr/sbin`
 * `handlerSSL`      Sets the `handlerSSL` attribute in to `true` or `false`, defaults to `true`
 
-## Resource: `shibbloleth::attribute_map`
+## Resource: `shibboleth::attribute_map`
 
-### Parameters for `shibbloleth::attribute_map`
+### Parameters for `shibboleth::attribute_map`
 
 * `map_uri` Sets the URI for downloading the Attribute map from. There is no default, and this parameter is required.
-* `map_dir` Sets the directory into which the attribute map is downloaded, defaults to `shibbloleth::conf_dir`
+* `map_dir` Sets the directory into which the attribute map is downloaded, defaults to `shibboleth::conf_dir`
 * `max_age` Sets the maximum age in days for the Attribute map before downloading and replacing it, defaults to `21` days
 
-## Class: `shibbloleth::backend_cert`
+## Class: `shibboleth::backend_cert`
 
-### Parameters for `shibbloleth::backend_cert`
+### Parameters for `shibboleth::backend_cert`
 
-* `sp_hostname`         Set's the hostname used to sign the back-end certifcated, defaults to `shibbloleth::hostname`
+* `sp_hostname`         Set's the hostname used to sign the back-end certifcated, defaults to `shibboleth::hostname`
 
-## Resource: `shibbloleth::metadata`
+## Resource: `shibboleth::metadata`
 
-### Parameters for `shibbloleth::metadata`
+### Parameters for `shibboleth::metadata`
 
 * `provider_uri`            Sets URI for the metadata provider, there is no default and this parameter is required.
 * `cert_uri`                  Sets the URI for the metadata signing certificate, there is no default and this parameter is required.
-* `backing_file_dir`          Sets the directory into which the metadata is downloaded into, defaults to `shibbloleth::conf_dir`
+* `backing_file_dir`          Sets the directory into which the metadata is downloaded into, defaults to `shibboleth::conf_dir`
 * `backing_file_name`         Sets the name of the metadata backing file, by default this is derived from the `provider_uir`
 * `cert_dir`                  Sets the directory into which the certificate is downloaded into
 * `cert_file_name`            Sets the name of the certificate file, by default this is derived from the `cert_uri`
@@ -176,9 +176,9 @@ The `shibboleth` module provides the following classes and resource definitions:
 * `provider_reload_interval`  Set's the metadata reload interval in seconds, defaults to "7200"
 * `metadata_filter_max_validity_interval` Sets the maximum interval for reloading the metadata_filter, defaults to "2419200" seconds
 
-## Resource: `shibbloleth::sso`
+## Resource: `shibboleth::sso`
 
-### Prameters for `shibbloleth::sso`
+### Prameters for `shibboleth::sso`
 * `discoveryURL`        The URL of the discovery service, is undefined by default
 * `idpURL`              The URL of a single IDp, is undefined by default
 * `discoveryProtocol`   Sets the discovery protocol for the discovery service provided in the `discoveryURL`, defaults to "SAMLDS",
@@ -192,7 +192,7 @@ Manual resgistration of the Service Provider is still required. By default, the 
 
 # Attribution
 
-The `shibbloleth` Puppet module was created Aaron Hicks (hicksa@landcareresearch.co.nz) for work on the NeSI Project and the Tuakiri New Zealand Access Federation as a fork from the PuppetLabs Apache module on GitHub.
+The `shibboleth` Puppet module was created Aaron Hicks (hicksa@landcareresearch.co.nz) for work on the NeSI Project and the Tuakiri New Zealand Access Federation as a fork from the PuppetLabs Apache module on GitHub.
 
 * https://github.com/puppetlabs/puppetlabs-apache
 * https://github.com/nesi/puppetlabs-apache
