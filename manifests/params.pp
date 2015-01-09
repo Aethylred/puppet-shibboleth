@@ -25,10 +25,10 @@ class shibboleth::params {
   $discovery_protocol = 'SAMLDS'
 
   case $::osfamily {
-    Debian:{
+    'Debian':{
       # Do nothing
     }
-    RedHat:{
+    'RedHat':{
       # Do nothing
     }
     default:{
