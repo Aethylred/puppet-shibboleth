@@ -29,18 +29,21 @@ class shibboleth (
 
   $config_file = "${conf_dir}/${conf_file}"
 
+  user{$user:
+    ensure => 'present',
+    home   => '/var/log/shibboleth',
+    shell  => '/bin/false',
+    require => Class['apache::mod::shib'],
+  }
+
   # by requiring the apache::mod::shib, these should wait for the package
   # to create the directory.
   file{'shibboleth_conf_dir':
     ensure  => 'directory',
     path    => $conf_dir,
-    require => Class['apache::mod::shib'],
-  }
-
-  user{$user:
-    ensure => 'present',
-    home   => '/var/log/shibboleth',
-    shell  => '/bin/false',
+    owner   => $user,
+    group   => $group,
+    recurse => true,
     require => Class['apache::mod::shib'],
   }
 

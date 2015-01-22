@@ -28,6 +28,8 @@ describe 'shibboleth', :type => :class do
       it { should contain_file('shibboleth_conf_dir').with(
         'ensure'  => 'directory',
         'path'    => '/etc/shibboleth',
+        'owner'   => '_shibd',
+        'group'   => '_shibd',
         'require' => 'Class[Apache::Mod::Shib]'
       ) }
       it { should contain_file('shibboleth_config_file').with(
