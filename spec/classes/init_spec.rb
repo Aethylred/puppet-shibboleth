@@ -19,6 +19,12 @@ describe 'shibboleth', :type => :class do
       }
     end
     describe 'with no parameters' do
+      it { should contain_user('_shibd').with(
+        'ensure'  => 'present',
+        'home'    => '/var/log/shibboleth',
+        'shell'   => '/bin/false',
+        'require' => 'Class[Apache::Mod::Shib]'
+      ) }
       it { should contain_file('shibboleth_conf_dir').with(
         'ensure'  => 'directory',
         'path'    => '/etc/shibboleth',

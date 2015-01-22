@@ -15,6 +15,8 @@
 class shibboleth (
   $admin              = $::shibboleth::params::admin,
   $hostname           = $::shibboleth::params::hostname,
+  $user               = $::shibboleth::params::user,
+  $group              = $::shibboleth::params::group,
   $logo_location      = $::shibboleth::params::logo_location,
   $style_sheet        = $::shibboleth::params::style_sheet,
   $conf_dir           = $::shibboleth::params::conf_dir,
@@ -32,7 +34,14 @@ class shibboleth (
   file{'shibboleth_conf_dir':
     ensure  => 'directory',
     path    => $conf_dir,
-    require => Class['apache::mod::shib']
+    require => Class['apache::mod::shib'],
+  }
+
+  user{$user:
+    ensure => 'present',
+    home   => '/var/log/shibboleth',
+    shell  => '/bin/false',
+    require => Class['apache::mod::shib'],
   }
 
   file{'shibboleth_config_file':

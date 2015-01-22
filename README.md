@@ -121,7 +121,10 @@ class{'apache':
 class{'apache::mod::shib: '}
 
 file{'/etc/shibboleth/example.com.crt':
-  ensure => 'file'
+  ensure => 'file',
+  owner  => $::shibboleth::user,
+  group  => $::shibboleth::group,
+  mode   => '0644',
   source => 'puppet:///private/example.com.crt'
 }
 
@@ -140,6 +143,8 @@ The `shibboleth` module provides the following classes and resource definitions:
 
 * `admin`      Sets the Shibboleth administrator's email address, defaults to `apache::serveradmin`
 * `hostname`   Sets the host name to be used in the Shibboleth configuration, defaults to `fqdn`
+* `user`       Sets the user under which the Shibboleth daemon runs. The default for Debian is `_shibd`. This rarely needs to be changed, but defines the user and exposes the name as a variable `$::shibboleth::user`.
+* `group`      Sets the primary group for the user under which the Shibboleth daemon runs. The default for Debian is `_shibd`. This rarely needs to be changed, but defines the primary group on the user and exposes the group as a variable `$::shibboleth::user`.
 * `logoLocation`    Sets the location relative to the web root of the 'logo' to be used on error pages, defaults to `/shibboleth-sp/logo.jpg`
 * `styleSheet`      = Sets the location relative to the web root of the CSS style sheet to be used on error pages, defaults to `/shibboleth-sp/main.css`
 * `conf_dir`   Sets the directory where the Shibboleth configuration is stored, defaults to `/etc/shibboleth`

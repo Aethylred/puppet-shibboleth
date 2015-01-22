@@ -1,6 +1,6 @@
 {
   "name": "Aethylred-shibboleth",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Aethylred",
   "license": "Licensed under Apache 2.0",
   "summary": "A module for installing and managing shibboleth",

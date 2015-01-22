@@ -26,7 +26,8 @@ class shibboleth::params {
 
   case $::osfamily {
     'Debian':{
-      # Do nothing
+      $user  = '_shibd'
+      $group = '_shibd'
     }
     'RedHat':{
       # Do nothing
