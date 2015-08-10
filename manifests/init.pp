@@ -103,7 +103,7 @@ class shibboleth (
     enable      => true,
     hasrestart  => true,
     hasstatus   => true,
-    require     => Class['apache::mod::shib'],
+    require     => [Class['apache::mod::shib'],User[$user]],
   }
 
 }

@@ -80,7 +80,7 @@ describe 'shibboleth', :type => :class do
         'enable'      => true,
         'hasrestart'  => true,
         'hasstatus'   => true,
-        'require'     => 'Class[Apache::Mod::Shib]'
+        'require'     => '[Class[Apache::Mod::Shib],User[_shibd]'
       ) }
       # The module isn't set up for testing the changes augeas makes.
     end
