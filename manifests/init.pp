@@ -30,9 +30,9 @@ class shibboleth (
   $config_file = "${conf_dir}/${conf_file}"
 
   user{$user:
-    ensure => 'present',
-    home   => '/var/log/shibboleth',
-    shell  => '/bin/false',
+    ensure  => 'present',
+    home    => '/var/log/shibboleth',
+    shell   => '/bin/false',
     require => Class['apache::mod::shib'],
   }
 
@@ -99,11 +99,11 @@ class shibboleth (
   }
 
   service{'shibd':
-    ensure      => 'running',
-    enable      => true,
-    hasrestart  => true,
-    hasstatus   => true,
-    require     => [Class['apache::mod::shib'],User[$user]],
+    ensure     => 'running',
+    enable     => true,
+    hasrestart => true,
+    hasstatus  => true,
+    require    => [Class['apache::mod::shib'],User[$user]],
   }
 
 }
