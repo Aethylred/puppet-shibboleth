@@ -33,7 +33,7 @@ shibboleth::metadata{'federation_metadata':
 }
 
 shibboleth::attribute_map{'federation_attribute_map':
-  attribute_map_uri => 'https://example.federation.org/download/attribute-map.xml',
+  map_uri => 'https://example.federation.org/download/attribute-map.xml',
 }
 
 include shibboleth::backend_cert
@@ -95,7 +95,7 @@ Currently `shibboleth::metadata` only supports a single metadata provider, but i
 
 ```puppet
 shibboleth::attribute_map{'federation_attribute_map':
-  attribute_map_uri => 'https://example.federation.org/download/attribute-map.xml',
+  map_uri => 'https://example.federation.org/download/attribute-map.xml',
 }
 ```
 
