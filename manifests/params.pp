@@ -30,7 +30,8 @@ class shibboleth::params {
       $group = '_shibd'
     }
     'RedHat':{
-      # Do nothing
+      $user  = '_shibd'
+      $group = '_shibd'
     }
     default:{
       fail("The shibboleth Puppet module does not support ${::osfamily} family of operating systems")
