@@ -1,3 +1,4 @@
+# Defines a Shibboleth Single Sign On resource
 define shibboleth::sso (
   $discoveryURL       = undef,
   $idpURL             = undef,
