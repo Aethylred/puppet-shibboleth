@@ -106,7 +106,10 @@ class shibboleth (
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
-    require    => [Class['apache::mod::shib'],User[$user]],
+    require    => [
+      Class['apache::mod::shib'],
+      $manage_user ? { false => undef, true => User[$user] },
+    ],
   }
 
 }
