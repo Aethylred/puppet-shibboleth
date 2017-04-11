@@ -2,29 +2,42 @@
 # it will need to be modified to permit multiple metadata providers
 define shibboleth::metadata(
   $provider_uri,
-  $cert_uri,
+  $cert_uri                 = undef,
   $backing_file_dir         = $::shibboleth::conf_dir,
-  $backing_file_name        = inline_template("<%= @provider_uri.split('/').last  %>"),
+  $backing_file_name        = undef,
   $cert_dir                 = $::shibboleth::conf_dir,
-  $cert_file_name           = inline_template("<%= @cert_uri.split('/').last  %>"),
+  $cert_file_name           = undef,
   $provider_type            = 'XML',
   $provider_reload_interval = '7200',
   $metadata_filter_max_validity_interval  = '2419200'
 ){
 
-  $backing_file = "${backing_file_dir}/${backing_file_name}"
-  $cert_file    = "${cert_dir}/${cert_file_name}"
+  $_backing_file_name = $backing_file_name ? {
+    undef => inline_template("<%= @provider_uri.split('/').last  %>"),
+    default => $backing_file_name
+  }
 
-  # Get the Metadata signing certificate
-  exec{"get_${name}_metadata_cert":
-    path    => ['/usr/bin'],
-    command => "wget ${cert_uri} -O ${cert_file}",
-    creates => $cert_file,
-    notify  => Service['httpd','shibd'],
+  $backing_file = "${backing_file_dir}/${_backing_file_name}"
+
+
+  $_cert_file_name = $cert_file_name ? {
+    undef => inline_template("<%= @cert_uri.split('/').last  %>"),
+    default => $cert_file_name
+  }
+  $cert_file    = "${cert_dir}/${_cert_file_name}"
+
+  if $cert_uri {
+    # Get the Metadata signing certificate
+    exec{"${title}::get_metadata_cert":
+      path    => ['/usr/bin'],
+      command => "wget ${cert_uri} -O ${cert_file}",
+      creates => $cert_file,
+      notify  => Service['httpd','shibd'],
+    }
   }
 
   # This puts the MetadataProvider entry in the 'right' place
-  augeas{"shib_${name}_create_metadata_provider":
+  augeas{"${title}::shib_create_metadata_provider":
     lens    => 'Xml.lns',
     incl    => $::shibboleth::config_file,
     context => "/files${::shibboleth::config_file}/SPConfig/ApplicationDefaults",
@@ -33,11 +46,10 @@ define shibboleth::metadata(
     ],
     onlyif  => 'match MetadataProvider/#attribute/uri size == 0',
     notify  => Service['httpd','shibd'],
-    require => Exec["get_${name}_metadata_cert"],
   }
 
   # This will update the attributes and child nodes if they change
-  augeas{"shib_${name}_metadata_provider":
+  augeas{"${title}::shib_metadata_provider":
     lens    => 'Xml.lns',
     incl    => $::shibboleth::config_file,
     context => "/files${::shibboleth::config_file}/SPConfig/ApplicationDefaults",
@@ -52,7 +64,7 @@ define shibboleth::metadata(
       "set MetadataProvider/MetadataFilter[2]/#attribute/certificate ${cert_file}",
     ],
     notify  => Service['httpd','shibd'],
-    require => [Exec["get_${name}_metadata_cert"],Augeas["shib_${name}_create_metadata_provider"]],
+    require => [Augeas["${title}::shib_create_metadata_provider"]],
   }
 
 }
