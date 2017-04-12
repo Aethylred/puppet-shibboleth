@@ -34,7 +34,28 @@ define shibboleth::metadata(
       creates => $cert_file,
       notify  => Service['httpd','shibd'],
     }
+    # augeas changes for <MetadataFilter> signature element
+    $_mdchanges_signature = [
+      'set MetadataProvider/MetadataFilter[2]/#attribute/type Signature',
+      "set MetadataProvider/MetadataFilter[2]/#attribute/certificate ${cert_file}"
+    ]
+  } else {
+    $_mdchanges_signature = []
   }
+
+  # augeas changes for base <MetadataProvider>
+  $_mdchanges_base = [
+      "set MetadataProvider/#attribute/type ${provider_type}",
+      "set MetadataProvider/#attribute/uri ${provider_uri}",
+      "set MetadataProvider/#attribute/backingFilePath ${backing_file}",
+      "set MetadataProvider/#attribute/reloadInterval ${provider_reload_interval}"
+  ]
+
+  # augeas changes for <MetadataFilter> validity element
+  $_mdchanges_validity = [
+      'set MetadataProvider/MetadataFilter[1]/#attribute/type RequireValidUntil',
+      "set MetadataProvider/MetadataFilter[1]/#attribute/maxValidityInterval ${metadata_filter_max_validity_interval}",
+  ]
 
   # This puts the MetadataProvider entry in the 'right' place
   augeas{"${title}::shib_create_metadata_provider":
@@ -53,16 +74,11 @@ define shibboleth::metadata(
     lens    => 'Xml.lns',
     incl    => $::shibboleth::config_file,
     context => "/files${::shibboleth::config_file}/SPConfig/ApplicationDefaults",
-    changes => [
-      "set MetadataProvider/#attribute/type ${provider_type}",
-      "set MetadataProvider/#attribute/uri ${provider_uri}",
-      "set MetadataProvider/#attribute/backingFilePath ${backing_file}",
-      "set MetadataProvider/#attribute/reloadInterval ${provider_reload_interval}",
-      'set MetadataProvider/MetadataFilter[1]/#attribute/type RequireValidUntil',
-      "set MetadataProvider/MetadataFilter[1]/#attribute/maxValidityInterval ${metadata_filter_max_validity_interval}",
-      'set MetadataProvider/MetadataFilter[2]/#attribute/type Signature',
-      "set MetadataProvider/MetadataFilter[2]/#attribute/certificate ${cert_file}",
-    ],
+    changes => concat(
+      $_mdchanges_base,
+      $_mdchanges_validity,
+      $_mdchanges_signature
+    ),
     notify  => Service['httpd','shibd'],
     require => [Augeas["${title}::shib_create_metadata_provider"]],
   }
