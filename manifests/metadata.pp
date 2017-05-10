@@ -20,6 +20,7 @@ define shibboleth::metadata(
     path    => ['/usr/bin'],
     command => "wget ${cert_uri} -O ${cert_file}",
     creates => $cert_file,
+    require => File['shibboleth_conf_dir'],
     notify  => Service['httpd','shibd'],
   }
 
