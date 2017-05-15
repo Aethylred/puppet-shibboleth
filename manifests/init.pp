@@ -52,7 +52,9 @@ class shibboleth (
     path    => $config_file,
     replace => false,
     require => [Class['apache::mod::shib'],File['shibboleth_conf_dir']],
-  }
+  } 
+
+  File['shibboleth_config_file'] -> Augeas <| incl == $config_file |>
 
 # Using augeas is a performance hit, but it works. Fix later.
   augeas{'sp_config_resources':
