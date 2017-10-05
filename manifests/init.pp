@@ -24,6 +24,7 @@ class shibboleth (
   $conf_file          = $::shibboleth::params::conf_file,
   $sp_cert            = $::shibboleth::params::sp_cert,
   $bin_dir            = $::shibboleth::params::bin_dir,
+  $handlerURL         = undef,
   $handlerSSL         = true,
   $consistent_address = true
 ) inherits shibboleth::params {
@@ -80,13 +81,14 @@ class shibboleth (
     notify  => Service['httpd','shibd'],
   }
 
+  $hurl = pick($handlerURL, "https://${hostname}/Shibboleth.sso")
   augeas{'sp_config_hostname':
     lens    => 'Xml.lns',
     incl    => $config_file,
     context => "/files${config_file}/SPConfig/ApplicationDefaults",
     changes => [
       "set #attribute/entityID https://${hostname}/shibboleth",
-      "set Sessions/#attribute/handlerURL https://${hostname}/Shibboleth.sso",
+      "set Sessions/#attribute/handlerURL ${hurl}",
     ],
     notify  => Service['httpd','shibd'],
   }
