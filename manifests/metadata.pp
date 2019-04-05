@@ -65,7 +65,7 @@ define shibboleth::metadata(
     changes => [
       'ins MetadataProvider after Errors',
     ],
-    onlyif  => 'match MetadataProvider/#attribute/uri size == 0',
+    onlyif  => 'match MetadataProvider/#attribute/url size == 0',
     notify  => Service['httpd','shibd'],
   }
 
