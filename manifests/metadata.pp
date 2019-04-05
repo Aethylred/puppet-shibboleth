@@ -46,7 +46,7 @@ define shibboleth::metadata(
   # augeas changes for base <MetadataProvider>
   $_mdchanges_base = [
       "set MetadataProvider/#attribute/type ${provider_type}",
-      "set MetadataProvider/#attribute/uri ${provider_uri}",
+      "set MetadataProvider/#attribute/url ${provider_uri}",
       "set MetadataProvider/#attribute/backingFilePath ${backing_file}",
       "set MetadataProvider/#attribute/reloadInterval ${provider_reload_interval}"
   ]
