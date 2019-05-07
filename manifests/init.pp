@@ -15,6 +15,7 @@
 class shibboleth (
   $admin              = $::shibboleth::params::admin,
   $hostname           = $::shibboleth::params::hostname,
+  $manage_user        = false,
   $user               = $::shibboleth::params::user,
   $group              = $::shibboleth::params::group,
   $logo_location      = $::shibboleth::params::logo_location,
@@ -23,17 +24,20 @@ class shibboleth (
   $conf_file          = $::shibboleth::params::conf_file,
   $sp_cert            = $::shibboleth::params::sp_cert,
   $bin_dir            = $::shibboleth::params::bin_dir,
+  $handlerURL         = undef,
   $handlerSSL         = true,
   $consistent_address = true
 ) inherits shibboleth::params {
 
   $config_file = "${conf_dir}/${conf_file}"
 
-  user{$user:
-    ensure  => 'present',
-    home    => '/var/log/shibboleth',
-    shell   => '/bin/false',
-    require => Class['apache::mod::shib'],
+  if $manage_user {
+    user{$user:
+      ensure  => 'present',
+      home    => '/var/log/shibboleth',
+      shell   => '/bin/false',
+      require => Class['apache::mod::shib'],
+    }
   }
 
   # by requiring the apache::mod::shib, these should wait for the package
@@ -77,13 +81,14 @@ class shibboleth (
     notify  => Service['httpd','shibd'],
   }
 
+  $hurl = pick($handlerURL, "https://${hostname}/Shibboleth.sso")
   augeas{'sp_config_hostname':
     lens    => 'Xml.lns',
     incl    => $config_file,
     context => "/files${config_file}/SPConfig/ApplicationDefaults",
     changes => [
       "set #attribute/entityID https://${hostname}/shibboleth",
-      "set Sessions/#attribute/handlerURL https://${hostname}/Shibboleth.sso",
+      "set Sessions/#attribute/handlerURL ${hurl}",
     ],
     notify  => Service['httpd','shibd'],
   }
@@ -103,7 +108,10 @@ class shibboleth (
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
-    require    => [Class['apache::mod::shib'],User[$user]],
+    require    => [
+      Class['apache::mod::shib'],
+      $manage_user ? { false => undef, true => User[$user] },
+    ],
   }
 
 }
