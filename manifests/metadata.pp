@@ -9,7 +9,7 @@ define shibboleth::metadata(
   $cert_file_name           = undef,
   $provider_type            = 'XML',
   $provider_reload_interval = '7200',
-  $metadata_filter_max_validity_interval  = '2419200'
+  $metadata_filter_max_validity_interval  = undef
 ){
 
   $_backing_file_name = $backing_file_name ? {
@@ -52,10 +52,14 @@ define shibboleth::metadata(
   ]
 
   # augeas changes for <MetadataFilter> validity element
-  $_mdchanges_validity = [
+  if $metadata_filter_max_validity_interval {
+    $_mdchanges_validity = [
       'set MetadataProvider/MetadataFilter[1]/#attribute/type RequireValidUntil',
       "set MetadataProvider/MetadataFilter[1]/#attribute/maxValidityInterval ${metadata_filter_max_validity_interval}",
-  ]
+    ]
+  } else {
+    $_mdchanges_validity = []
+  }
 
   # This puts the MetadataProvider entry in the 'right' place
   augeas{"${title}::shib_create_metadata_provider":
