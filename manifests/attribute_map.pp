@@ -12,7 +12,7 @@ define shibboleth::attribute_map(
   exec{"get_${name}_attribute_map":
     path    => ['/usr/bin'],
     command => "wget ${map_uri} -O ${attribute_map}",
-    unless  => "test `find ${attribute_map} -mtime +${max_age}`",
+    unless  => "test `find ${attribute_map} -mtime -${max_age}`",
     notify  => Service['httpd','shibd'],
   }
 
