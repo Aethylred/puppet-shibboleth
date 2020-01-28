@@ -18,6 +18,12 @@ define shibboleth::sso (
       $entityID_aug = 'rm SSO/#attribute/entityID'
     }
 
+    if $discovery_protocol == 'none' {
+      $discovery_protocol_aug = 'rm SSO/#attribute/discoveryProtocol'
+    } else {
+      $discovery_protocol_aug = "set SSO/#attribute/discoveryProtocol ${discovery_protocol}"
+    }
+
     if $discoveryURL {
       $discoveryURL_aug = "set SSO/#attribute/discoveryURL ${discoveryURL}"
     } else {
@@ -31,7 +37,7 @@ define shibboleth::sso (
       changes => [
         $entityID_aug,
         $discoveryURL_aug,
-        "set SSO/#attribute/discoveryProtocol ${discovery_protocol}",
+        $discovery_protocol_aug,
         "set SSO/#attribute/ECP ${ecp_support}",
       ],
       notify  => Service['httpd','shibd'],

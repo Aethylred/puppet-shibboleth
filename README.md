@@ -186,7 +186,7 @@ The `shibboleth` module provides the following classes and resource definitions:
 ### Prameters for `shibboleth::sso`
 * `discoveryURL`        The URL of the discovery service, is undefined by default
 * `idpURL`              The URL of a single IDp, is undefined by default
-* `discovery_protocol`  Sets the discovery protocol for the discovery service provided in the `discoveryURL`, defaults to "SAMLDS",
+* `discovery_protocol`  Sets the discovery protocol for the discovery service provided in the `discoveryURL`, defaults to "SAMLDS"; if set to "none", discoveryProtocol attribute is removed
 * `ecp_support`         Sets support for non-web based ECP logins, by default this is `false`
 
 **Note:** Either one of `discoveryURL` or `idpURL` is required, but not both.
