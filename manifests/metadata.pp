@@ -24,14 +24,25 @@ define shibboleth::metadata(
   }
 
   # This puts the MetadataProvider entry in the 'right' place
-  augeas{"shib_${name}_create_metadata_provider":
+  augeas{"shib_${name}_rm_metadata_provider_with_uri":
+    lens    => 'Xml.lns',
+    incl    => $::shibboleth::config_file,
+    context => "/files${::shibboleth::config_file}/SPConfig/ApplicationDefaults",
+    changes => [
+      'rm MetadataProvider',
+    ],
+    onlyif  => 'match MetadataProvider/#attribute/uri size != 0',
+    notify  => Service['httpd','shibd'],
+    require => Exec["get_${name}_metadata_cert"],
+  }
+  ->augeas{"shib_${name}_create_metadata_provider":
     lens    => 'Xml.lns',
     incl    => $::shibboleth::config_file,
     context => "/files${::shibboleth::config_file}/SPConfig/ApplicationDefaults",
     changes => [
       'ins MetadataProvider after Errors',
     ],
-    onlyif  => 'match MetadataProvider/#attribute/uri size == 0',
+    onlyif  => 'match MetadataProvider/#attribute/url size == 0',
     notify  => Service['httpd','shibd'],
     require => Exec["get_${name}_metadata_cert"],
   }
@@ -43,7 +54,7 @@ define shibboleth::metadata(
     context => "/files${::shibboleth::config_file}/SPConfig/ApplicationDefaults",
     changes => [
       "set MetadataProvider/#attribute/type ${provider_type}",
-      "set MetadataProvider/#attribute/uri ${provider_uri}",
+      "set MetadataProvider/#attribute/url ${provider_uri}",
       "set MetadataProvider/#attribute/backingFilePath ${backing_file}",
       "set MetadataProvider/#attribute/reloadInterval ${provider_reload_interval}",
       'set MetadataProvider/MetadataFilter[1]/#attribute/type RequireValidUntil',
